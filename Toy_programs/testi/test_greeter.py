@@ -1,9 +1,14 @@
 from unittest import TestCase
-from Toy_programs.testi import Greeter
-
+from Greeter import Greeter
+import io
+import sys
 
 class TestGreeter(TestCase):
     def test_greet(self):
+        capturedOutput = io.StringIO()
+        sys.stdout = capturedOutput
         g = Greeter()
-        answer = g.greet() #korjaa tämä
+        g.greet()
+        sys.stdout = sys.__stdout__
+        print("captured", capturedOutput.getvalue())
 
