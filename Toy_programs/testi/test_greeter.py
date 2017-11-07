@@ -1,14 +1,18 @@
 from unittest import TestCase
-from Greeter import Greeter
+from Toy_programs.testi.Greeter import Greeter
 import io
 import sys
 
 class TestGreeter(TestCase):
     def test_greet(self):
-        capturedOutput = io.StringIO()
-        sys.stdout = capturedOutput
-        g = Greeter()
-        g.greet()
-        sys.stdout = sys.__stdout__
-        print("captured", capturedOutput.getvalue())
+        saved_stdout = sys.stdout
+        try:
+            out = io.StringIO()
+            sys.stdout = out
+            Greeter().greet()
+            output = out.getvalue().strip()
+            self.assertEqual(output,"Hello world!")
+            print(output)
+        finally:
+            sys.stdout = saved_stdout
 
