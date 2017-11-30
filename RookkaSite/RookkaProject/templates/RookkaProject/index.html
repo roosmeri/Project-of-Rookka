@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <form method="post">
+        Query:<br>
+       <input type="text" name="query">
+        <input type="submit" value="Try your luck!">
+
+    </form>
+    {% if article_list %}
+        <ul>
+            <p>Articles found, much luck.</p>
+            {% for article in article_list %}
+                <li>{{ article.article_wantedinfo}}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No articles found, no luck.</p>
+    {% endif %}
+</head>
+<body>
+
+</body>
+</html>

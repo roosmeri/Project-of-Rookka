@@ -10,4 +10,4 @@ Riikka Raatikainen, Riina Juurmaa and Roosa Meriläinen
 The project is a Django application. One must clone this repo and run the application with the command: 
 $python3 manage.py runserver 
 from the upper RookkaSite directory. 
-Then navigate to http://localhost:8000/RookkaProject/ with one's browser. The site should show the text: "Hello, visitor. You're at the RookkaProject's index." Hopefully something smarter in the future.
+Then navigate to http://localhost:8000/RookkaProject/ with one's browser. The site should show an input box and search button, hopefully quite soon entering words into the query box and clicking 'Search' will bring out some search result.
