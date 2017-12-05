@@ -11,5 +11,8 @@ The project is a Django application. One must clone this repo and run the applic
 $python3 manage.py runserver 
 from the upper RookkaSite directory. 
 Then navigate to http://localhost:8000/RookkaProject/ with one's browser. The site should show an input box and search button, hopefully quite soon entering words into the query box and clicking 'Search' will bring out some search result.
+
+##
+
 [Luokkakaavio](https://yuml.me/fbf05817.png)
 
