@@ -7,7 +7,7 @@
 		processor="XPathEntityProcessor"
 		stream="true"
 		forEach="/mediawiki/page/"
-		url="C:\Users\riikk\Desktop\koulu\kieliteknologia\nlp-sovellus\solr-7.1.0\solr-7.1.0\server\solr\finwiki\input\fiwiki-20171103-pages-meta-current.xml"
+		url="/home/roosa/solr-7.1.0/server/solr/fiwiki/input/fiwiki-20171103-pages-meta-current.xml"
 		transformer="RegexTransformer, DateFormatTransformer"
 		>
 	   <field column="id"          xpath="/mediawiki/page/id" />
