@@ -20,8 +20,11 @@ class Result(models.Model):
 
 class Article(models.Model):
     result = models.ForeignKey(Result)
-    article_wantedinfo = "" #what is wanted from the article JSON?
+
+    def __init__(self, title, text):
+        self.title = title
+        self.text = text
 
 
     def __str__(self):
-        return self.article_wantedinfo
+        return self
