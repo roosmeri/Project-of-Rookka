@@ -48,15 +48,13 @@ def process_query(query_text):
     else:
         #(text:(juusto AND pitsa) OR title:(juusto OR pitsa))
         returned = "(text:("
-        for word in words[:len(words)-1]:
-            returned = returned + word + " AND "
-        returned += words[len(words)-1] + ") OR title:("
-        for word in words[:len(words)-1]:
-            returned = returned + word + " OR "
-        returned = returned + words[len(words)-1] + "))"
+        for word in words[:len(words) - 1]:
+            returned = returned + word + "%20AND%20"
+        returned += words[len(words) - 1] + ")%20OR%20title:("
+        for word in words[:len(words) - 1]:
+            returned = returned + word + "%20OR%20"
+        returned = returned + words[len(words) - 1] + "))"
         return returned
-
-    # multiple word queries don't work yet!!!!!
 
 
 def contact_solr(query_text, result):
