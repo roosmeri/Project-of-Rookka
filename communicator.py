@@ -21,9 +21,9 @@ def process_query(query):
         returned = returned + words[len(words)-1] + "))"
         return returned
 
-query = "pitsa"
+query = "kissa koira"
 
-url_start = "http://localhost:8983/solr/finwiki/select?q="
+url_start = "http://localhost:8983/solr/fiwiki/select?q="
 url_middle = process_query(query)
 url_end = "&wt=python"
 
