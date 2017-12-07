@@ -3,18 +3,25 @@ import re
 from django.http import HttpResponse
 from urllib.request import urlopen
 
-from .models import Query, Result, Article
+from .models import Result, Article
+from .forms import QueryForm
 
 def index(request):
-    article_list = Result.result_texts[:5]
+    result = Result()
+    if request.GET.get('query') is not None:
+        query_text = request.GET.get('query')
+        result.setQueryText(query_text)
+        query(query_text, result)
+    article_list = result.result_texts[:5]
     context = {'article_list': article_list}
     return render(request, 'RookkaProject/index.html', context)
 
-def query(query_text):
+
+def query(query_text,result):
     #here give query text to solr and return cleaned list of articles
-    result = Result()
+    result.clearResult()
     contact_solr(query_text, result)
-    return
+    return result
 
 def clean_query(query_text):
     #here clean input from user, if has unaccepted characters, reject.
@@ -25,7 +32,7 @@ def clean_query(query_text):
 def form_article(document, result):
     #here insert the query results to the Result object and article objects
     article = Article(document['title'], document['text'])
-    result.result_texts.append(article)
+    result.addToResult(document)
     return
 
 def process_query(query_text):
@@ -37,7 +44,7 @@ def process_query(query_text):
     """
     words = query_text.split()
     if len(words) == 1:
-        return "(text:" + words[0] + " OR title:" + words[0] + ")"
+        return "(text:" + words[0] + "%20OR%20title:" + words[0] + ")"
     else:
         #(text:(juusto AND pitsa) OR title:(juusto OR pitsa))
         returned = "(text:("
@@ -53,7 +60,7 @@ def process_query(query_text):
 
 
 def contact_solr(query_text, result):
-    url_start = "http://localhost:8983/solr/finwiki/select?q="
+    url_start = "http://localhost:8983/solr/fiwiki/select?q="
     url_middle = process_query(query_text)
     url_end = "&wt=python"
 
@@ -65,3 +72,5 @@ def contact_solr(query_text, result):
     for document in response['response']['docs']:
     #use the function form_article to, well, form an Article object
         form_article(document, result)
+
+    return

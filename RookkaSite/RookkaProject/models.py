@@ -2,20 +2,19 @@
 from django.db import models
 
 
-class Query(models.Model):
-    query_text = models.CharField(max_length=200) #queryObject for solr
-
-    def __str__(self):
-        return self.name
-
-
 class Result(models.Model):
-    query = models.ForeignKey(Query, on_delete=models.CASCADE)
-    result_texts = [] #a collection of articles from solr
+    query_text = ''
+    result_texts = []
 
+    def setQueryText(self, query_text):
+        query_text = self.query_text
 
-    def __str__(self):
-        return self.name
+    def addToResult(self, article):
+        self.result_texts.append(article)
+
+    def clearResult(self):
+        self.result_texts.clear()
+
 
 
 class Article(models.Model):
@@ -24,7 +23,3 @@ class Article(models.Model):
     def __init__(self, title, text):
         self.title = title
         self.text = text
-
-
-    def __str__(self):
-        return self

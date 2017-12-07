@@ -1,25 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+
+    {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+    {% endif %}
+    </script>
+
     <meta charset="UTF-8">
-    <form method="post">
-        Query:<br>
-       <input type="text" name="query">
+
+</head>
+<body>
+
+    <form  action="." method="GET">
+        {% csrf_token %}
+        <label for="query_text">Query:</label>
+       <input id = "query_text" type="text" name="query" >
         <input type="submit" value="Try your luck!">
 
     </form>
+
     {% if article_list %}
         <ul>
             <p>Articles found, much luck.</p>
             {% for article in article_list %}
-                <li>{{ article.article_wantedinfo}}</li>
+                <li>{{ article.title }}</li>
             {% endfor %}
         </ul>
     {% else %}
         <p>No articles found, no luck.</p>
     {% endif %}
-</head>
-<body>
 
 </body>
 </html>
