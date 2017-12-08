@@ -7,9 +7,12 @@ Riikka Raatikainen and Roosa Meriläinen
 
 ## How to use
 
-The project is a Django application. One must clone this repo and run the application with the command: 
-  $python3 manage.py runserver 
-from the upper RookkaSite directory. 
+The project is a Django application using Solr. Solr must be running on the fiwiki (Finnish wikipedia) core for the app to work. One must clone this repo and run the application with the command:
+
+$python3 manage.py runserver 
+
+from the upper RookkaSite directory.
+ 
 Then navigate to http://localhost:8000/RookkaProject/ with one's browser. The site should show an input box and search button. Write your query words to the box and "Try your luck!". The titles and a tiny caption of the articles that contain the query words in title or text will show on the site.
 
 ##
