@@ -20,6 +20,8 @@ class Result(models.Model):
 class Article(models.Model):
     result = models.ForeignKey(Result)
 
-    def __init__(self, title, text):
+    def __init__(self, title, text, id): #,time):
         self.title = title
         self.text = text
+        self.id = id
+        #self.time = time

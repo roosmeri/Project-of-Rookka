@@ -11,7 +11,7 @@ def index(request):
     if request.GET.get('query') is not None:
         query_text = request.GET.get('query')
         result.setQueryText(query_text)
-        query(query_text, result)
+        result = query(query_text, result)
     article_list = result.result_texts[:5]
     context = {'article_list': article_list}
     return render(request, 'RookkaProject/index.html', context)
@@ -31,7 +31,7 @@ def clean_query(query_text):
 
 def form_article(document, result):
     #here insert the query results to the Result object and article objects
-    article = Article(document['title'], document['text'])
+    article = Article(document['title'], document['text'], document['id']) #, document[''])
     result.addToResult(document)
     return
 
