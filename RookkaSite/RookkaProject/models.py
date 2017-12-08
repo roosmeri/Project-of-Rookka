@@ -24,4 +24,5 @@ class Article(models.Model):
         self.title = title
         self.text = text
         self.id = id
+        self.url = "http://fi.wikipedia.org/?curid=" + self.id
         #self.time = time

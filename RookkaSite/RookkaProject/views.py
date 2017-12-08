@@ -32,7 +32,7 @@ def clean_query(query_text):
 def form_article(document, result, highlighting):
     #here insert the query results to the Result object and article objects
 
-    article = Article(document['title'], highlighting)
+    article = Article(document['title'], highlighting, document['id'])
     result.addToResult(article)
     return
 

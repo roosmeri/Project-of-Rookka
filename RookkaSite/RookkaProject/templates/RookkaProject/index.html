@@ -36,7 +36,7 @@
         <ul>
             <p>Articles found, much luck.</p>
             {% for article in article_list %}
-                <li>{{ article.title }}</li>
+                <a href={{ article.url }}>{{ article.title }}</a>
                 <li>{{ article.text }}</li>
             {% endfor %}
         </ul>
