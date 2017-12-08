@@ -37,6 +37,7 @@
             <p>Articles found, much luck.</p>
             {% for article in article_list %}
                 <li>{{ article.title }}</li>
+                <li>{{ article.text }}</li>
             {% endfor %}
         </ul>
     {% else %}
