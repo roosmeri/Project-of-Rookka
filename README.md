@@ -14,5 +14,7 @@ Then navigate to http://localhost:8000/RookkaProject/ with one's browser. The si
 
 ##
 
-[Luokkakaavio](https://yuml.me/fbf05817.png)
+[Class diagram](https://yuml.me/fbf05817.png)
+
+[Backlog](https://docs.google.com/spreadsheets/d/1yEiY5XAZVYa8lysPCjB2HH348Lml4YFK3AXYPf9ejOQ/edit?usp=sharing)
 

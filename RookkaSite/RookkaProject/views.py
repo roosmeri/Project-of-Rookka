@@ -29,10 +29,11 @@ def clean_query(query_text):
         return True
     return False
 
-def form_article(document, result):
+def form_article(document, result, highlighting):
     #here insert the query results to the Result object and article objects
-    article = Article(document['title'], document['text'], document['id']) #, document[''])
-    result.addToResult(document)
+
+    article = Article(document['title'], highlighting)
+    result.addToResult(article)
     return
 
 def process_query(query_text):
@@ -58,7 +59,7 @@ def process_query(query_text):
 
 
 def contact_solr(query_text, result):
-    url_start = "http://localhost:8983/solr/fiwiki/select?q="
+    url_start = "http://localhost:8983/solr/fiwiki/select?hl.fl=text&hl=on&q="
     url_middle = process_query(query_text)
     url_end = "&wt=python"
 
@@ -69,6 +70,8 @@ def contact_solr(query_text, result):
 
     for document in response['response']['docs']:
     #use the function form_article to, well, form an Article object
-        form_article(document, result)
+    #highlightings can be found in response['highlighting'][document['id']]
+        highlighting = response['highlighting'][document['id']]
+        form_article(document, result, highlighting)
 
     return
