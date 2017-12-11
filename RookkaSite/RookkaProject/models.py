@@ -1,5 +1,6 @@
 
 from django.db import models
+#import mwparserfromhell
 
 
 class Result(models.Model):
@@ -7,7 +8,7 @@ class Result(models.Model):
     result_texts = []
 
     def setQueryText(self, query_text):
-        query_text = self.query_text
+        self.query_text = query_text
 
     def addToResult(self, article):
         self.result_texts.append(article)
@@ -26,3 +27,8 @@ class Article(models.Model):
         self.id = id
         self.url = "http://fi.wikipedia.org/?curid=" + self.id
         #self.time = time
+
+    #def cleanText(self):
+        #clean the text from wikitext to plain text
+        #parsed_wikicode = mwparserfromhell.parse(self.text)
+        #self.text = str(parsed_wikicode.strip_code())

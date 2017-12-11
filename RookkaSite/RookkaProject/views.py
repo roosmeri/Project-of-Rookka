@@ -1,18 +1,24 @@
+#coding=UTF-8
 from django.shortcuts import render
 import re
 from django.http import HttpResponse
 from urllib.request import urlopen
+import urllib.parse
 
 from .models import Result, Article
 from .forms import QueryForm
 
 def index(request):
-    result = Result()
     if request.GET.get('query') is not None:
+        result = Result()
         query_text = request.GET.get('query')
-        result.setQueryText(query_text)
-        result = query(query_text, result)
-    article_list = result.result_texts[:5]
+        if query_text and check_query(query_text):
+            result.setQueryText(query_text)
+            result = query(query_text, result)
+            article_list = result.result_texts[:10]
+            context = {'article_list': article_list}
+            return render(request, 'RookkaProject/index.html', context)
+    article_list = []
     context = {'article_list': article_list}
     return render(request, 'RookkaProject/index.html', context)
 
@@ -23,9 +29,9 @@ def query(query_text,result):
     contact_solr(query_text, result)
     return result
 
-def clean_query(query_text):
-    #here clean input from user, if has unaccepted characters, reject.
-    if re.match('^\w+$',query_text):
+def check_query(query_text):
+    #here check if input has unaccepted characters
+    if re.match(r'\w+', query_text):
         return True
     return False
 
@@ -33,6 +39,7 @@ def form_article(document, result, highlighting):
     #here insert the query results to the Result object and article objects
 
     article = Article(document['title'], highlighting, document['id'])
+    #article.cleanText()
     result.addToResult(article)
     return
 
@@ -61,6 +68,8 @@ def process_query(query_text):
 def contact_solr(query_text, result):
     url_start = "http://localhost:8983/solr/fiwiki/select?hl.fl=text&hl=on&q="
     url_middle = process_query(query_text)
+    #below in the comment a first try to fix the scandic character problem - does not work!
+    #url_middle = urllib.parse.quote(url_middle)
     url_end = "&wt=python"
 
     url = url_start + url_middle + url_end
