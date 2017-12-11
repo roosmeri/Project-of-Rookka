@@ -9,6 +9,7 @@ from .models import Result, Article
 from .forms import QueryForm
 
 def index(request):
+    article_list = []
     if request.GET.get('query') is not None:
         result = Result()
         query_text = str(request.GET.get('query'))
@@ -16,9 +17,6 @@ def index(request):
             result.setQueryText(query_text)
             result = query(query_text, result)
             article_list = result.result_texts[:10]
-            context = {'article_list': article_list}
-            return render(request, 'RookkaProject/index.html', context)
-    article_list = []
     context = {'article_list': article_list}
     return render(request, 'RookkaProject/index.html', context)
 
