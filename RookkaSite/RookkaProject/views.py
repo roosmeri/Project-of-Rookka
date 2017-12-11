@@ -1,9 +1,9 @@
 #coding=UTF-8
 from django.shortcuts import render
+from django.utils.encoding import iri_to_uri
 import re
 from django.http import HttpResponse
 from urllib.request import urlopen
-import urllib.parse
 
 from .models import Result, Article
 from .forms import QueryForm
@@ -11,7 +11,7 @@ from .forms import QueryForm
 def index(request):
     if request.GET.get('query') is not None:
         result = Result()
-        query_text = request.GET.get('query')
+        query_text = str(request.GET.get('query'))
         if query_text and check_query(query_text):
             result.setQueryText(query_text)
             result = query(query_text, result)
@@ -68,11 +68,10 @@ def process_query(query_text):
 def contact_solr(query_text, result):
     url_start = "http://localhost:8983/solr/fiwiki/select?hl.fl=text&hl=on&q="
     url_middle = process_query(query_text)
-    #below in the comment a first try to fix the scandic character problem - does not work!
-    #url_middle = urllib.parse.quote(url_middle)
     url_end = "&wt=python"
 
     url = url_start + url_middle + url_end
+    url = iri_to_uri(url)
 
     connection = urlopen(url)
     response = eval(connection.read())
