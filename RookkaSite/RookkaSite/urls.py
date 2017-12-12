@@ -19,5 +19,4 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^RookkaProject/', include('RookkaProject.urls')),
     url(r'^admin/', admin.site.urls),
-    #url(r'^query/', include('RookkaProject.urls'))
 ]
