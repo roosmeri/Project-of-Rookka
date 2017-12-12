@@ -1,6 +1,6 @@
 
 from django.db import models
-#import mwparserfromhell
+import mwparserfromhell
 
 
 class Result(models.Model):
@@ -21,14 +21,15 @@ class Result(models.Model):
 class Article(models.Model):
     result = models.ForeignKey(Result)
 
-    def __init__(self, title, text, id): #,time):
+    def __init__(self, title, text, id):
         self.title = title
-        self.text = text
+        self.text = self.cleanText(str(text))
         self.id = id
         self.url = "http://fi.wikipedia.org/?curid=" + self.id
-        #self.time = time
 
-    #def cleanText(self):
+    def cleanText(self, text):
         #clean the text from wikitext to plain text
-        #parsed_wikicode = mwparserfromhell.parse(self.text)
-        #self.text = str(parsed_wikicode.strip_code())
+        parsed_wikicode = mwparserfromhell.parse(text)
+        returnable_string = str(parsed_wikicode.strip_code())
+        #do more cleaning to the returnable_string!
+        return returnable_string

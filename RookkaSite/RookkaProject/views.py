@@ -36,8 +36,7 @@ def check_query(query_text):
 def form_article(document, result, highlighting):
     #here insert the query results to the Result object and article objects
 
-    article = Article(document['title'], highlighting, document['id'])
-    #article.cleanText()
+    article = Article(document['title'], highlighting['text'], document['id'])
     result.addToResult(article)
     return
 
