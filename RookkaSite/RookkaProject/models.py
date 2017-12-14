@@ -1,6 +1,7 @@
 
 from django.db import models
 import mwparserfromhell
+import re
 
 
 class Result(models.Model):
@@ -31,5 +32,10 @@ class Article(models.Model):
         #clean the text from wikitext to plain text
         parsed_wikicode = mwparserfromhell.parse(text)
         returnable_string = str(parsed_wikicode.strip_code())
+        returnable_string = returnable_string.replace('[','').replace(']','')
+        returnable_string = returnable_string.replace('{', '').replace('}', '')
+        returnable_string = returnable_string.replace('\\n', ' ')
+        returnable_string = re.sub('^"\w*\|\w*\|','', returnable_string)
+        returnable_string = re.sub('(^\w*\|)|(^\w*\.\w{3}\|\w*\|)','', returnable_string)
         #do more cleaning to the returnable_string!
         return returnable_string

@@ -1,4 +1,3 @@
-#coding=UTF-8
 from django.shortcuts import render
 from django.utils.encoding import iri_to_uri
 import re
@@ -6,7 +5,6 @@ from django.http import HttpResponse
 from urllib.request import urlopen
 
 from .models import Result, Article
-from .forms import QueryForm
 
 def index(request):
     article_list = []
