@@ -27,9 +27,11 @@ def query(query_text,result):
 
 def check_query(query_text):
     #here check if input has unaccepted characters
-    if re.match(r'\w+', query_text):
-        return True
-    return False
+    words = query_text.split()
+    for word in words:
+        if not re.match('\w+', word):
+            return False
+    return True
 
 def form_article(document, result, highlighting):
     #here insert the query results to the Result object and article objects

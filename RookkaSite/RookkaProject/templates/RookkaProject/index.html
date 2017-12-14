@@ -2,38 +2,90 @@
 
 <html lang="en">
 <head>
-    <script>
-
-    {% if form.errors %}
-    {% for field in form %}
-        {% for error in field.errors %}
-            <div class="alert alert-danger">
-                <strong>{{ error|escape }}</strong>
-            </div>
-        {% endfor %}
-    {% endfor %}
-    {% for error in form.non_field_errors %}
-        <div class="alert alert-danger">
-            <strong>{{ error|escape }}</strong>
-        </div>
-    {% endfor %}
-    {% endif %}
-    </script>
-
-    <meta charset="UTF-8">
+     <meta charset="UTF-8">
     <title>Rookka All The Way</title>
     {% load static %}
 
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="{% static 'RookkaProject/style.css' %}" />
-
-
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!--  <script>
+    $(function() {
+        $("#autosearch").autocomplete({
+            source: function( request, response ) {
+                $.ajax({
+                url: "http://localhost:17001/solr/techproducts/select",
+                data: {
+                    q: "*",
+                    facet:"on",
+                    "facet.field":"features",
+                    "facet.prefix":request.term,
+                    wt:"json",
+                    fl: "features",
+                    rows:0
+                },
+                dataType: "jsonp",
+                jsonp: 'json.wrf',
+                type: "GET",
+                success: function( data ) {
+                    data=parse();
+                    function parse(){
+                    var features=[];
+                        for(var i=0;i<data.facet_counts.facet_fields.features.length;i+=2){
+                            features[i/2]=data.facet_counts.facet_fields.features[i];
+                        }
+                        return features;
+                    }
+                    response(data, function(item) {
+                    return {
+                        label: item,
+                        value: item
+                    }
+                    });
+                }
+            });
+            },
+            });
+        });
+    </script> -->
+    <!-- <script>
+  $( function() {
+    var availableTags = [
+      "ActionScript",
+      "AppleScript",
+      "Asp",
+      "BASIC",
+      "C",
+      "C++",
+      "Clojure",
+      "COBOL",
+      "ColdFusion",
+      "Erlang",
+      "Fortran",
+      "Groovy",
+      "Haskell",
+      "Java",
+      "JavaScript",
+      "Lisp",
+      "Perl",
+      "PHP",
+      "Python",
+      "Ruby",
+      "Scala",
+      "Scheme"
+    ];
+    $( "#tags" ).autocomplete({
+      source: availableTags
+    });
+  } );
+  </script> -->
 </head>
 <body>
 
     <form  action="." method="GET" accept-charset="utf-8">
-        {% csrf_token %}
-        <label for="query_text">Query:</label>
-       <input id = "query_text" type="text" name="query" >
+        <label for="tags">Query:</label>
+       <input id = "tags" type="text" name="query" >
         <input type="submit" value="Try your luck!">
 
     </form>
