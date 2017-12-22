@@ -36,10 +36,8 @@ class Article(models.Model):
         returnable_string = returnable_string.replace('[','').replace(']','')
         returnable_string = returnable_string.replace('{', '').replace('}', '')
         returnable_string = returnable_string.replace('\\n', ' ')
-        re.sub('(.*?\|.*?\|)','', returnable_string)
         re.sub('(\w*\|)|(\w*\.\w{3}\|\w*\|)','', returnable_string)
         #do more cleaning to the returnable_string!
-        re.sub('\<.*\>', '', returnable_string)
         return returnable_string
 
 
