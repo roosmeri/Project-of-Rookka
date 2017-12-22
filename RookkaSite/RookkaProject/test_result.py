@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from RookkaProject.models import Article, Result
+from RookkaProject.models import Result
 from RookkaProject import views
 
 class TestResult(TestCase):
