@@ -1,0 +1,50 @@
+###Documentation
+
+##Rookka All The Way - project of team Rookka for the course "Building a NLP application"
+#21.12.2017
+
+##Sorl and the core
+
+#Finnish wikipedia
+
+The finnish wikipedia (as an XML dump from [here](https://dumps.wikimedia.org/)) has been used as input for the core. Our version is that of the 3rd of November 2017, but any version of pages-meta-current, later or more current, works just fine once indexed with the configurations shown in the "solrconfig" directory in the root of the repository.
+
+#Sorting of the search result
+Solr's default sorting is un use with the article list shown after a successful search. Another option, for example, could've been sorting the articles so that the ones last modified would show up first - but this seemed like a trivial feature when we are just searching for articles where the query word(s) is(/are) in the title or text. It is quite unlikely that the User would want the article of where somebody last added a comma when querying with "juusto"(=cheese).
+
+
+##Features
+
+#Search
+
+Searching works with one or multiple words separated by whitespace. As the data is that of the Finnish wikipedia, one may want to search with finnish words most of the time.
+
+The result of the search is a list of article titles and the hightlighting part of the text of that article as provided by Solr.
+
+Searching with an empty input(be it just spaces or nothing at all) yields no articles, only the text of "No articles found, no luck.". Searching with special characters like (!#%& etc) in the query words also produces an empty result, but special letters like ä,ö,ñ,ç work in a query. The search words should be alphanumeric.
+
+#Open article through link
+
+The titles of articles work as links to the actual articles in Wikipedia. Try it!
+
+##Issues
+
+#Highlighting part in wikitext
+
+Wikitext out of its' natural context is not pretty, yet the highlighting part shown in the search result at Rookka All The Way is in wikitext. 
+
+Cleaning up wikitext to make it resemble plain text is a chore so tedious we do not recommend it to anyone after attempting it ourselves. 
+
+Another problem with cleaning the text in the app just before showing it to the user is that the highlighting part may consist of only wikitext markup and no plain text at all. Removing all wikitext markup would cause us to have an empty highlighting! So the cleaning, if done, should be done before indexing the data, so that by the time the Django app gets its' paws on the text it is already plain text.
+
+Using a tool from the web is a much better idea, than doing it on your own. 
+
+First we tried to use [mwparserfromhell](https://github.com/earwig/mwparserfromhell) in the app itself. We kept the mwparserfromhell in the code in the end because it was the only one we got working even a little bit. It needs to be installed or commented out before one may run the app.
+
+Second we tried using [wikiextractor](https://github.com/attardi/wikiextractor) before indexing the data at all. The wikiextractor does work like magic - but the output was either in html or json, and we simply did not have time to figure out how to index different formats of text.
+
+##Testing
+
+We provided unit tests for Result and Article class, simple tests that test that the Result with a query has only Articles that have the query word or words in its' title or text(highlighting). These tests should be run with the command "python3 manage.py test".
+
+Other issues were tested by hand in the app itself - for example things like; do scandic letters or accented letters cause issues in query text? No, they don't.
