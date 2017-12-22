@@ -31,3 +31,13 @@ class TestResult(TestCase):
             self.assertGreaterEqual(count, 1)
             #at least one query word must appear in the returned article's text or title
 
+    def test_query_with_special_characters(self):
+        result = Result()
+        query_text = "nälkäinen"
+        result.setQueryText(query_text)
+        result = views.query(query_text, result)
+        article_list = result.result_texts[:10]
+
+        for article in article_list:
+            self.assertIn(query_text, (article.text.lower() or article.title.lower()))
+            #query word should appear in the returned article's text or title

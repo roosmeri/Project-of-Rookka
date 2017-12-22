@@ -12,7 +12,7 @@ def index(request):
         result = Result()
         query_text = str(request.GET.get('query'))
         query_text.strip()
-        if query_text and not query_text.isspace() and check_query(query_text):
+        if query_text and check_query(query_text):
             result.setQueryText(query_text)
             result = query(query_text, result)
             article_list = result.result_texts[:40]
@@ -28,6 +28,8 @@ def query(query_text,result):
 
 def check_query(query_text):
     #here check if input has unaccepted characters
+    if query_text.isspace():
+        return False
     words = query_text.split()
     for word in words:
         if not re.match('\w+', word):

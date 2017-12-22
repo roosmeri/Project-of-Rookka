@@ -28,7 +28,6 @@ class Article(models.Model):
         self.text = self.cleanText(str(text))
         self.id = id
         self.url = "http://fi.wikipedia.org/?curid=" + self.id
-        self.setResultSize(result)
 
     def cleanText(self, text):
         #clean the text from wikitext to plain text
