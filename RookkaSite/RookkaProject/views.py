@@ -11,10 +11,11 @@ def index(request):
     if request.GET.get('query') is not None:
         result = Result()
         query_text = str(request.GET.get('query'))
-        if query_text and check_query(query_text):
+        query_text.strip()
+        if query_text and not query_text.isspace() and check_query(query_text):
             result.setQueryText(query_text)
             result = query(query_text, result)
-            article_list = result.result_texts[:10]
+            article_list = result.result_texts[:40]
     context = {'article_list': article_list}
     return render(request, 'RookkaProject/index.html', context)
 
@@ -35,8 +36,10 @@ def check_query(query_text):
 
 def form_article(document, result, highlighting):
     #here insert the query results to the Result object and article objects
-
-    article = Article(document['title'], highlighting['text'], document['id'])
+    if highlighting:
+        article = Article(result, document['title'], highlighting['text'], document['id'])
+    else:
+        article = Article(result, document['title'], 'No hightlighting.', document['id'])
     result.addToResult(article)
     return
 
@@ -65,7 +68,7 @@ def process_query(query_text):
 def contact_solr(query_text, result):
     url_start = "http://localhost:8983/solr/fiwiki/select?hl.fl=text&hl=on&q="
     url_middle = process_query(query_text)
-    url_end = "&wt=python"
+    url_end = "&rows=100&wt=python"
 
     url = url_start + url_middle + url_end
     url = iri_to_uri(url)

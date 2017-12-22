@@ -21,12 +21,14 @@ class Result(models.Model):
 
 class Article(models.Model):
     result = models.ForeignKey(Result)
+    resultsize = 0
 
-    def __init__(self, title, text, id):
+    def __init__(self, result, title, text, id):
         self.title = title
         self.text = self.cleanText(str(text))
         self.id = id
         self.url = "http://fi.wikipedia.org/?curid=" + self.id
+        self.setResultSize(result)
 
     def cleanText(self, text):
         #clean the text from wikitext to plain text
@@ -35,7 +37,10 @@ class Article(models.Model):
         returnable_string = returnable_string.replace('[','').replace(']','')
         returnable_string = returnable_string.replace('{', '').replace('}', '')
         returnable_string = returnable_string.replace('\\n', ' ')
-        returnable_string = re.sub('^"\w*\|\w*\|','', returnable_string)
-        returnable_string = re.sub('(^\w*\|)|(^\w*\.\w{3}\|\w*\|)','', returnable_string)
+        re.sub('(.*?\|.*?\|)','', returnable_string)
+        re.sub('(\w*\|)|(\w*\.\w{3}\|\w*\|)','', returnable_string)
         #do more cleaning to the returnable_string!
+        re.sub('\<.*\>', '', returnable_string)
         return returnable_string
+
+
